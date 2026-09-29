@@ -1,0 +1,136 @@
+export const projects = [
+  {
+    eyebrow: 'NATURAL LANGUAGE · GRAPH AI',
+    title: 'Text-to-AQL Query Engine',
+    description: 'Natural Language Services that translate user questions into ArangoDB Query Language, execute them, and explain the results in natural language.',
+    meta: ['Text-to-AQL', 'gRPC services', 'OpenAI + self-hosted LLMs', 'ArangoGraphML'],
+    period: 'Production AI System',
+    location: 'ArangoAI',
+    action: 'View Documentation',
+    link: 'https://docs.arango.ai/agentic-ai-suite/natural-language-to-aql/web-interface/',
+    tone: 'coral',
+    visual: ['NATURAL LANGUAGE', '↓  validate intent', 'AQL QUERY', '↓  execute graph', 'EXPLAINED RESULT'],
+  },
+  {
+    eyebrow: 'AGENTIC AI · ENTERPRISE DEPLOYMENT',
+    title: 'Autonomous AI Workflows',
+    description: 'Enterprise AI pipelines engineered at BluePal Software Solutions — developing custom OpenManus multi-agent orchestration, Groq-powered chatbots, and RAG document search for business automation.',
+    meta: ['Groq + Open-Source LLMs', 'RAG Pipelines', 'OpenManus Agents', 'FastAPI / Python'],
+    period: 'Enterprise AI Initiative',
+    location: 'BluePal Software Solutions',
+    action: 'Visit BluePal',
+    link: 'https://bluepal.com',
+    tone: 'violet',
+    visual: ['PLAN', '↳ retrieve context', '↳ select tools', '↳ execute action', '↳ reflect + respond'],
+  },
+  {
+    eyebrow: 'COMPUTER VISION · INTERNSHIP',
+    title: 'Real-time Hand Sign Recognition',
+    description: 'A CNN-based deep-learning model integrated with OpenCV to recognize hand signs and output the corresponding word or letter from a live camera feed.',
+    meta: ['Convolutional Neural Network', 'OpenCV', 'TensorFlow', 'Live predictions'],
+    period: 'Jan 2024 — Apr 2024',
+    location: 'SAK Informatics',
+    action: 'View experience',
+    link: '#experience',
+    tone: 'blue',
+    visual: ['CAMERA  ● LIVE', '┌────────────┐', '   HAND SIGN', '└────────────┘', 'PREDICTION: A'],
+  },
+  {
+    eyebrow: 'MACHINE LEARNING · NLP',
+    title: 'Recommendation & Misinformation Models',
+    description: 'Fine-tuned a Hugging Face model for movie recommendations with Telegram integration, and built a supervised model for fake-news detection.',
+    meta: ['Hugging Face', 'Telegram Bot API', 'NLP', 'Supervised Learning'],
+    period: '2021 — 2023',
+    location: 'Indian Servers · 1stop',
+    action: 'View experience',
+    link: '#experience',
+    tone: 'lime',
+    visual: ['INPUT: article', '↓ tokenize', '↓ classify', 'TRUST SCORE  0.94', 'STATUS: VERIFIED'],
+  },
+];
+
+export const experiences = [
+  {
+    role: 'AI/ML Engineer · Contract',
+    company: 'ArangoAI',
+    period: 'Jul 2025 — Jul 2026',
+    location: 'Remote',
+    summary: 'Developed production graph-intelligence services spanning natural-language query translation, LLM validation, and GraphML model operations.',
+    highlights: ['Text-to-AQL gRPC service', 'OpenAI and self-hosted LLM architecture', 'ArangoGraphML REST APIs'],
+  },
+  {
+    role: 'AI Engineer',
+    company: 'BluePal Software Solutions',
+    period: 'Aug 2024 — Present',
+    location: 'Hyderabad, India',
+    summary: 'Builds LLM applications, retrieval pipelines, and autonomous workflows supported by scalable Python APIs and business integrations.',
+    highlights: ['Groq-powered conversational AI', 'Vector retrieval and RAG pipelines', 'OpenManus multi-step automation'],
+  },
+  {
+    role: 'Computer Vision Intern',
+    company: 'SAK Informatics',
+    period: 'Jan 2024 — Apr 2024',
+    location: 'India',
+    summary: 'Developed a CNN and OpenCV pipeline for real-time hand-sign recognition and live word or letter prediction.',
+    highlights: ['CNN model development', 'OpenCV camera pipeline'],
+  },
+  {
+    role: 'Software Trainee · Intern',
+    company: 'Indian Servers',
+    period: 'Apr 2023 — Jun 2023',
+    location: 'Andhra Pradesh, India',
+    summary: 'Completed software trainee internship program (UID: IndServ23a1231). Fine-tuned Hugging Face transformer models for movie recommendations with real-time Telegram bot API integration.',
+    highlights: ['Hugging Face fine-tuning', 'Telegram Bot API', 'Software Trainee (IndServ23a1231)'],
+  },
+  {
+    role: 'Machine Learning Intern',
+    company: '1stop',
+    period: 'Nov 2021 — Jan 2022',
+    location: 'Remote, India',
+    summary: 'Built supervised machine learning models to detect fake news across large datasets and developed a misinformation filtering pipeline for news sources.',
+    highlights: ['Supervised Learning', 'Fake-News Classification', 'NLP Preprocessing'],
+  },
+];
+
+export const skillGroups = [
+  { number: '01', title: 'Core AI', items: ['Machine Learning', 'Deep Learning', 'NLP', 'Generative AI', 'Agentic AI'] },
+  { number: '02', title: 'Frameworks', items: ['TensorFlow', 'OpenCV', 'LangChain', 'RAG', 'Streamlit'] },
+  { number: '03', title: 'Backend', items: ['Python', 'Flask', 'FastAPI', 'REST APIs', 'gRPC'] },
+  { number: '04', title: 'Data', items: ['ArangoDB', 'MongoDB', 'SQL', 'Vector databases'] },
+  { number: '05', title: 'Platform', items: ['Docker', 'Kubernetes', 'HTML', 'CSS', 'React'] },
+  { number: '06', title: 'AI Toolchain', items: ['Cursor', 'Kiro', 'Windsurf', 'Qoder', 'Anti-Gravity', 'Claude Code CLI', 'Gemini CLI'] },
+];
+
+export const credentials = [
+  {
+    type: 'CERTIFICATION',
+    name: 'Claude Code in Action',
+    issuer: 'Anthropic',
+    verifyUrl: 'https://verify.skilljar.com/c/t59q6rrffck4',
+  },
+  {
+    type: 'CERTIFICATION',
+    name: 'Building LLM Applications using Prompt Engineering',
+    issuer: 'NVIDIA',
+  },
+  {
+    type: 'CERTIFICATION',
+    name: 'ArangoDB Certified Professional',
+    issuer: 'ArangoDB',
+  },
+  {
+    type: 'CERTIFICATION',
+    name: 'Cloud Computing Basics',
+    issuer: 'NPTEL',
+  },
+  {
+    type: 'INTERNSHIP',
+    name: 'Computer Vision & Deep Learning',
+    issuer: 'SAK Informatics · Jan-Apr 2024',
+  },
+  {
+    type: 'EDUCATION · 2024',
+    name: 'B.Tech in Computer Science and Engineering',
+    issuer: 'Sree Venkateswara College of Engineering · JNTUA',
+  },
+];
