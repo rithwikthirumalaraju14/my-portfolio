@@ -117,6 +117,7 @@ export const credentials = [
     type: 'CERTIFICATION',
     name: 'ArangoDB Certified Professional',
     issuer: 'ArangoDB',
+    documentUrl: '/Certificate-Rithwik-Thirumalaraju%20%281%29%20%281%29.pdf',
   },
   {
     type: 'CERTIFICATION',
@@ -127,6 +128,20 @@ export const credentials = [
     type: 'INTERNSHIP',
     name: 'Computer Vision & Deep Learning',
     issuer: 'SAK Informatics · Jan-Apr 2024',
+    documentUrl: '/internship1.jpg',
+  },
+  {
+    type: 'PROJECT CERTIFICATE',
+    name: 'Data Science Project Completion',
+    issuer: '1stop · Personifiwy · Jan 2022',
+    documentUrl: '/internship2.jpg',
+  },
+  {
+    type: 'INTERNSHIP OFFER',
+    name: 'Software Trainee Internship Offer',
+    issuer: 'Indian Servers · May 2023',
+    documentUrl: '/internship3.pdf',
+    documentLabel: 'View Offer Letter',
   },
   {
     type: 'EDUCATION · 2024',

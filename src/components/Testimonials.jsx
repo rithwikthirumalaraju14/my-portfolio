@@ -9,14 +9,14 @@ export default function Testimonials() {
           <article className={index === 0 ? 'featured' : ''} key={item.name}>
             <div className="credential-top">
               <span className="credential-type">{item.type}</span>
-              {item.verifyUrl && (
+              {(item.verifyUrl || item.documentUrl) && (
                 <a
-                  href={item.verifyUrl}
+                  href={item.verifyUrl || item.documentUrl}
                   target="_blank"
                   rel="noreferrer"
                   className="verify-badge"
                 >
-                  Verify Certificate ↗
+                  {item.verifyUrl ? 'Verify Certificate' : item.documentLabel || 'View Certificate'} ↗
                 </a>
               )}
             </div>
@@ -25,14 +25,14 @@ export default function Testimonials() {
               <span className="avatar">{item.issuer.charAt(0)}</span>
               <p>
                 <strong>{item.issuer}</strong>
-                {item.verifyUrl ? (
+                {item.verifyUrl || item.documentUrl ? (
                   <a
-                    href={item.verifyUrl}
+                    href={item.verifyUrl || item.documentUrl}
                     target="_blank"
                     rel="noreferrer"
                     className="verify-sublink"
                   >
-                    Official Verification ↗
+                    {item.verifyUrl ? 'Official Verification' : item.documentLabel || 'View Certificate'} ↗
                   </a>
                 ) : (
                   'Verified learning milestone'
