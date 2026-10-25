@@ -2,11 +2,33 @@ import { useState } from 'react';
 import { resumeUrl } from '../utils/downloadResume';
 
 const contactEmail = 'rithwikthirumalaraju@gmail.com';
-const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(contactEmail)}`;
+const contactEndpoint = import.meta.env.VITE_CONTACT_SCRIPT_URL?.trim();
+
+function checkReceipt(endpoint, requestId) {
+  return new Promise((resolve, reject) => {
+    const callback = `contactReceipt_${requestId.replaceAll('-', '')}`;
+    const script = document.createElement('script');
+    const timer = setTimeout(() => finish(null, new Error('Receipt timed out')), 8000);
+
+    function finish(result, error) {
+      clearTimeout(timer);
+      script.remove();
+      delete window[callback];
+      if (error) reject(error);
+      else resolve(result);
+    }
+
+    window[callback] = (result) => finish(result);
+    script.onerror = () => finish(null, new Error('Receipt could not be loaded'));
+    script.src = `${endpoint}?requestId=${requestId}&callback=${callback}&t=${Date.now()}`;
+    document.body.appendChild(script);
+  });
+}
 
 export default function Cta() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState('idle');
+  const [website, setWebsite] = useState('');
   const [copied, setCopied] = useState(false);
 
   const copyEmail = async () => {
@@ -19,20 +41,36 @@ export default function Cta() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name && !formData.message) return;
+    if (status === 'sending') return;
+    if (!contactEndpoint) {
+      setStatus('unconfigured');
+      return;
+    }
 
-    const params = new URLSearchParams({
-      view: 'cm',
-      fs: '1',
-      to: contactEmail,
-      su: `Inquiry from ${formData.name || 'Portfolio Visitor'}`,
-      body: `Hi Rithwik,\n\n${formData.message}\n\nFrom: ${formData.name} (${formData.email})`,
-    });
-    window.open(`https://mail.google.com/mail/?${params}`, '_blank', 'noopener,noreferrer');
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
+    setStatus('sending');
+    try {
+      const requestId = crypto.randomUUID();
+      await fetch(contactEndpoint, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ ...formData, website, requestId }),
+      });
+      let receipt;
+      for (let attempt = 0; attempt < 15; attempt += 1) {
+        receipt = await checkReceipt(contactEndpoint, requestId);
+        if (receipt.status !== 'pending') break;
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+      if (receipt.status !== 'received') throw new Error('Message was not confirmed');
+      setStatus('success');
+      setFormData({ name: '', email: '', message: '' });
+      setWebsite('');
+    } catch {
+      setStatus('error');
+    }
   };
 
   return (
@@ -54,7 +92,7 @@ export default function Cta() {
             <div className="contact-card contact-card-info">
               <div className="contact-details-list">
                 <div className="contact-email-row">
-                  <a href={gmailComposeUrl} target="_blank" rel="noopener noreferrer" className="contact-detail-row">
+                  <a href="#contact-form" className="contact-detail-row">
                     <span className="contact-icon" aria-hidden="true">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -103,12 +141,10 @@ export default function Cta() {
                 </a>
 
                 <a
-                  href={gmailComposeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="#contact-form"
                   className="social-circle-btn"
-                  aria-label="Compose email in Gmail"
-                  title="Compose in Gmail"
+                  aria-label="Go to contact form"
+                  title="Send a message"
                 >
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -135,23 +171,29 @@ export default function Cta() {
 
             {/* Right Card: Interactive Form */}
             <div className="contact-card contact-card-form">
-              <form onSubmit={handleSubmit} className="contact-form">
+              <form onSubmit={handleSubmit} className="contact-form" id="contact-form">
                 <div className="form-row-duo">
                   <div className="input-group">
                     <input
                       type="text"
+                      name="name"
+                      autoComplete="name"
                       placeholder="Your name"
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      onChange={(e) => { setFormData({ ...formData, name: e.target.value }); setStatus('idle'); }}
+                      disabled={status === 'sending'}
                       required
                     />
                   </div>
                   <div className="input-group">
                     <input
                       type="email"
+                      name="email"
+                      autoComplete="email"
                       placeholder="Email address"
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      onChange={(e) => { setFormData({ ...formData, email: e.target.value }); setStatus('idle'); }}
+                      disabled={status === 'sending'}
                       required
                     />
                   </div>
@@ -159,22 +201,30 @@ export default function Cta() {
 
                 <div className="input-group">
                   <textarea
+                    name="message"
                     rows={4}
                     placeholder="Tell me about the role or project..."
                     value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    onChange={(e) => { setFormData({ ...formData, message: e.target.value }); setStatus('idle'); }}
+                    disabled={status === 'sending'}
                     required
                   />
                 </div>
+                <div className="contact-honeypot" aria-hidden="true">
+                  <label htmlFor="contact-website">Leave this field empty</label>
+                  <input id="contact-website" type="text" name="website" tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} />
+                </div>
 
                 <div className="form-action-row">
-                  <button type="submit" className="contact-submit-btn">
-                    <span>Send Message</span>
+                  <button type="submit" className="contact-submit-btn" disabled={status === 'sending'}>
+                    <span>{status === 'sending' ? 'Sending...' : 'Send Message'}</span>
                     <i>↗</i>
                   </button>
-                  {submitted && (
-                    <span className="submit-confirm-msg">Gmail draft opened — press Send there.</span>
-                  )}
+                  <span className={status === 'error' || status === 'unconfigured' ? 'submit-error-msg' : 'submit-confirm-msg'} role="status" aria-live="polite">
+                    {status === 'success' && 'Message sent — thank you!'}
+                    {status === 'error' && 'Could not confirm your message. Please try again or copy my email address.'}
+                    {status === 'unconfigured' && 'Contact form is being set up. Please copy my email address for now.'}
+                  </span>
                 </div>
               </form>
             </div>

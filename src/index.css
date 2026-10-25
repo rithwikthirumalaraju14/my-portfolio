@@ -330,8 +330,11 @@ a.contact-detail-row:hover .contact-icon {
   transform: translateY(-2px);
   box-shadow: 0 10px 22px rgba(0, 0, 0, .14);
 }
+.contact-submit-btn:disabled { opacity: .6; cursor: wait; transform: none; }
 .contact-submit-btn i { font-style: normal; font-size: 14px; }
 .submit-confirm-msg { color: #2b8250; font-size: 12px; font-weight: 500; }
+.submit-error-msg { color: #b42318; font-size: 12px; font-weight: 500; }
+.contact-honeypot { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 .site-footer {
   display: flex;
